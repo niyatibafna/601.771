@@ -1,0 +1,43 @@
+#!/bin/bash
+
+#SBATCH --job-name=lora    # create a short name for your job
+#SBATCH --nodes=1                # node count
+#SBATCH --cpus-per-task=1       # cpu-cores per task (>1 if multi-threaded tasks)
+#SBATCH --partition=gpu         # Name of the partition
+# #SBATCH --exclude=e01
+# #SBATCH --nodelist=octopod       # Node is only available in gpu partition
+#SBATCH --gpus-per-node=1                # Total number of gpus
+#SBATCH --mem=80G                # Total memory allocated
+#SBATCH --hint=multithread       # we get logical cores (threads) not physical (cores)
+#SBATCH --time=5:00:00          # total run time limit (HH:MM:SS)
+#SBATCH --output=slurm_logs/roberta_lora.out   # output file name
+#SBATCH --error=slurm_logs/roberta_lora.out    # error file name
+
+
+echo "### Running $SLURM_JOB_NAME ###"
+
+echo "HOSTNAME: $(hostname)"
+echo
+echo CUDA in ENV:
+env | grep CUDA
+echo
+
+nvidia-smi
+
+module purge
+module load conda
+conda --version
+module load cuda/12.1
+nvcc --version
+
+# Set your conda environment
+source /home/$USER/.bashrc
+
+which python
+. "/home/nbafna1/miniconda3/etc/profile.d/conda.sh" && conda deactivate && conda activate sandbox
+which python
+
+set -x # print out every command that's run with a +
+cd /export/b08/nbafna1/projects/courses/601.771-ssl/601.771
+## SCRIPT TO RUN
+python roberta_lora.py
