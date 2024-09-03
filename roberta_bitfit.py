@@ -38,7 +38,7 @@ def compute_metrics(eval_pred):
 # Define training arguments
 training_args = TrainingArguments(
     per_device_train_batch_size=12,
-    num_train_epochs=5,
+    num_train_epochs=2,
     logging_dir="logs/roberta_bitfit/",
     report_to="tensorboard",
     logging_strategy="steps",
