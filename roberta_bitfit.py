@@ -35,10 +35,16 @@ def compute_metrics(eval_pred):
     predictions = np.argmax(logits, axis=-1)
     return accuracy_metric.compute(predictions=predictions, references=labels)
 
+# Split val into val and test
+test_size = 500
+tokenized_ds["test"] = tokenized_ds["validation"].select(range(test_size))
+tokenized_ds["validation"] = tokenized_ds["validation"].select(range(test_size, len(tokenized_ds["validation"])))
+
+
 # Define training arguments
 training_args = TrainingArguments(
     per_device_train_batch_size=12,
-    num_train_epochs=2,
+    num_train_epochs=5,
     logging_dir="logs/roberta_bitfit/",
     report_to="tensorboard",
     logging_strategy="steps",

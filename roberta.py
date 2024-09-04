@@ -29,7 +29,7 @@ def compute_metrics(eval_pred):
 # Define training arguments
 training_args = TrainingArguments(
     per_device_train_batch_size=12,
-    num_train_epochs=2,
+    num_train_epochs=5,
     logging_dir="logs/roberta/",
     report_to="tensorboard",
     logging_strategy="steps",
@@ -42,6 +42,12 @@ training_args = TrainingArguments(
     metric_for_best_model="eval_accuracy",
     output_dir="checkpoints/roberta/",
 )
+
+# Split val into val and test
+test_size = 500
+tokenized_ds["test"] = tokenized_ds["validation"].select(range(test_size))
+tokenized_ds["validation"] = tokenized_ds["validation"].select(range(test_size, len(tokenized_ds["validation"])))
+
 
 # Define trainer
 trainer = Trainer(

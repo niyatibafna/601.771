@@ -2,3 +2,4 @@ checkpoints/*
 
 logs/*
 slurm_logs/*
+tmp_trainer/*
