@@ -4,8 +4,6 @@
 #SBATCH --nodes=1                # node count
 #SBATCH --cpus-per-task=1       # cpu-cores per task (>1 if multi-threaded tasks)
 #SBATCH --partition=gpu         # Name of the partition
-# #SBATCH --exclude=e01
-# #SBATCH --nodelist=octopod       # Node is only available in gpu partition
 #SBATCH --gpus-per-node=1                # Total number of gpus
 #SBATCH --mem=80G                # Total memory allocated
 #SBATCH --hint=multithread       # we get logical cores (threads) not physical (cores)
@@ -34,7 +32,7 @@ nvcc --version
 source /home/$USER/.bashrc
 
 which python
-. "/home/nbafna1/miniconda3/etc/profile.d/conda.sh" && conda deactivate && conda activate basic
+. "/home/nbafna1/miniconda3/etc/profile.d/conda.sh" && conda deactivate && conda activate sandbox
 which python
 
 set -x # print out every command that's run with a +
